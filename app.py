@@ -13,12 +13,21 @@ def get_csv():
 
 
 
-@app.route("/")
-def index():
+@app.route("/<row_id>/")
+def detail():
 	template = "index.html"
 	object_list = get_csv()
-	return render_template(template, object_list = object_list)
+	for obj in object_list:
+		if obj['id'] == row_id:
+			return render_template(template, object=obj)
+
+@app.route("/")
+def index():
+    template = 'index.html'
+    object_list = get_csv()
+    return render_template(template, object_list = object_list)
+
+if __name__ == '__main__':
+    app.run(debug=True, use_reloader=True)
 
 
-if __name__ == "__main__":
-	app.run(debug=True, use_reloader=True)
